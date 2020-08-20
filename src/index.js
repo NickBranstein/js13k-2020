@@ -1,33 +1,30 @@
-import './main.scss'
-import gameImage from './assets/images/sprites/game-image.png'
+import './main.scss';
+import './fragmentshader';
+import './vertexshader';
+import './shader';
+import './drawobject';
+import './mat4';
+import './objloader';
+var gl = document.getElementById('canvas').getContext('webgl');
 
-console.log('Hello World')
+var objStr = document.getElementById('testDrone').innerHTML;
+var drone = new objLoader.Mesh(objStr);
+objLoader.initMeshBuffers(gl, drone);
 
-const testESNext = (Math.random() > .5 ? 'ES2020Working' : null)
-const testESNext2 = {
-  child: {
-    node: null,
-  },
+//shader progamInfo for test model
+var programInfo = shaderMethods.InitShader(gl, vsSource, fsSource);
+
+//render loop
+var oldTimestamp = 0;
+function render(timestamp) {
+    timestamp *= 0.001;  // convert to seconds
+    const deltaTime = timestamp - oldTimestamp;
+    oldTimestamp = timestamp;
+    drawMethods.drawObject(gl, programInfo, drone, deltaTime);
+    requestAnimationFrame(render);
 }
 
-const method = () => {
-  console.log('Hello Method')
+//render Start
+window.onload = function () {
+    requestAnimationFrame(render);
 }
-
-method()
-
-console.log(testESNext ?? 'ES2020 Is Working')
-console.log(testESNext2?.child?.node?.other)
-try {
-  console.log(testESNext2?.child?.node.other)
-}
-catch (e) {
-  console.log('Caught the error', e.toString())
-}
-
-// Using an imported image
-const imgEl = document.getElementById('jsImage')
-const image = document.createElement('img')
-
-image.src = gameImage
-imgEl.appendChild(image)
