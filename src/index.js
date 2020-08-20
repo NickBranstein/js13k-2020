@@ -22,7 +22,7 @@ function render(timestamp) {
     oldTimestamp = timestamp;
     drawMethods.drawObject(gl, programInfo, drone, deltaTime);
     requestAnimationFrame(render);
-}
+} 
 
 //render Start
 window.onload = function () {
