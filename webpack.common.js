@@ -56,6 +56,6 @@ module.exports = {
     },
     plugins: [
         new webpack.HashedModuleIdsPlugin(),
-        new CleanWebpackPlugin(),
+        new CleanWebpackPlugin()
     ],
 }
