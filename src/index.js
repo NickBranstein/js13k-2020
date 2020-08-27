@@ -8,9 +8,8 @@ import './objloader';
 import './models';
 var gl = document.getElementById('canvas').getContext('webgl');
 
-var objStr = document.getElementById('testDrone').innerHTML;
-var drone = new objLoader.Mesh(server);
-objLoader.initMeshBuffers(gl, drone);
+var example = new objLoader.Mesh(server);
+objLoader.initMeshBuffers(gl, example);
 
 //shader progamInfo for test model
 var programInfo = shaderMethods.InitShader(gl, vsSource, fsSource);
@@ -21,7 +20,7 @@ function render(timestamp) {
     timestamp *= 0.001;  // convert to seconds
     const deltaTime = timestamp - oldTimestamp;
     oldTimestamp = timestamp;
-    drawMethods.drawObject(gl, programInfo, drone, deltaTime);
+    drawMethods.drawObject(gl, programInfo, example, deltaTime);
     requestAnimationFrame(render);
 } 
 
