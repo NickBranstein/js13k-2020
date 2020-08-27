@@ -5,10 +5,11 @@ import './shader';
 import './drawobject';
 import './mat4';
 import './objloader';
+import './models';
 var gl = document.getElementById('canvas').getContext('webgl');
 
 var objStr = document.getElementById('testDrone').innerHTML;
-var drone = new objLoader.Mesh(objStr);
+var drone = new objLoader.Mesh(server);
 objLoader.initMeshBuffers(gl, drone);
 
 //shader progamInfo for test model

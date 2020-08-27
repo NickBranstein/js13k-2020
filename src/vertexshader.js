@@ -15,14 +15,14 @@
     }
 }(this, function (root) {
 const vsSource = `
-    attribute vec4 aVertexPosition;
-    attribute vec4 aVertexColor;
+    attribute vec4 Vert;
+    attribute vec4 Norm;
     uniform mat4 uModelViewMatrix;
     uniform mat4 uProjectionMatrix;
-    varying lowp vec4 vColor;
+    varying vec3 vColor;
     void main(void) {
-      gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-      vColor =  vec4(0.0, 1.0, 0.0, 1.0);
+      gl_Position = uProjectionMatrix * uModelViewMatrix * Vert;
+      vColor =  Norm.xyz;
     }
   `;
 
