@@ -167,7 +167,7 @@
 
         mat4.translate(modelViewMatrix,     // destination matrix
             modelViewMatrix,     // matrix to translate
-            [-0.0, 0.0, -200.0]);  // amount to translate
+            [-0.0, 0.0, -20.0]);  // amount to translate
         mat4.rotate(modelViewMatrix,  // destination matrix
             modelViewMatrix,  // matrix to rotate
             rotation,     // amount to rotate in radians
@@ -194,6 +194,25 @@
                 offset);
             gl.enableVertexAttribArray(
                 programInfo.attribLocations.vertexPosition);
+        }
+
+        //normals
+        {
+            const numComponents = model.normalBuffer.itemSize;
+            const type = gl.FLOAT;
+            const normalize = false;
+            const stride = 0;
+            const offset = 0;
+            gl.bindBuffer(gl.ARRAY_BUFFER, model.normalBuffer);
+            gl.vertexAttribPointer(
+                programInfo.attribLocations.normal,
+                numComponents,
+                type,
+                normalize,
+                stride,
+                offset);
+            gl.enableVertexAttribArray(
+                programInfo.attribLocations.normal);
         }
 
         //bind faces

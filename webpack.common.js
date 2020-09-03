@@ -9,7 +9,10 @@ module.exports = {
         app: [path.resolve(__dirname, 'src/index.js')]
         // see: https://hackernoon.com/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758
     },
-    resolve,
+    resolve: {
+        // Add `.ts` and `.tsx` as a resolvable extension.
+        extensions: [".ts", ".tsx", ".js"]
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'o.js',
@@ -27,6 +30,12 @@ module.exports = {
                     // Compiles Sass to CSS
                     'sass-loader',
                 ],
+            },
+            // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
+            {
+                test: /\.tsx?$/, loader: "ts-loader", options: {
+                    transpileOnly: true
+                }
             },
             {
                 test: /\.(js|jsx)$/,
@@ -56,6 +65,6 @@ module.exports = {
     },
     plugins: [
         new webpack.HashedModuleIdsPlugin(),
-        new CleanWebpackPlugin(),
+        new CleanWebpackPlugin()
     ],
 }

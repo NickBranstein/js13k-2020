@@ -38,7 +38,8 @@
         programInfo = {
             program: shaderProgram,
             attribLocations: {
-                vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+                vertexPosition: gl.getAttribLocation(shaderProgram, 'Vert'),
+                normal: gl.getAttribLocation(shaderProgram, 'Norm')
             },
             uniformLocations: {
                 projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
