@@ -7,32 +7,51 @@ import * as fs from '../lib/fragmentshader';
 import * as draw from '../lib/drawobject';
 
 export class TestLevel implements ILevel {
-    programInfo: any;
-    example: any;
-    lastTimestamp: any;
+	programInfo: any;
+	mesh: any;
+	lastTimestamp: any;
 
-    constructor(ctx: WebGLRenderingContext) {
-        this.lastTimestamp = 0;
-        this.example = new loader.objLoader.Mesh(models.server);
-        loader.objLoader.initMeshBuffers(ctx, this.example);
+	/*=================== Shaders ====================*/
+	gridVertCode = 'attribute vec3 coordinates;' +
+		'void main(void) {' +
+		' gl_Position = vec4(coordinates, 1.0);' +
+		'}';
 
-        //shader progamInfo for test model
-        this.programInfo = shader.shaderMethods.InitShader(ctx, vs.vsSource, fs.fsSource);
-    }
+	gridFragCode =
+		'void main(void) {' +
+		'gl_FragColor = vec4(0.0, 0.0, 0.0, 0.1);' +
+		'}';
 
-    start(): void {
+	constructor(ctx: WebGLRenderingContext) {
+		this.lastTimestamp = 0;
+		//this.example = new loader.objLoader.Mesh(models.server);
+		this.mesh = new loader.objLoader.Mesh("");
 
-    }
 
-    end: () => void;
+		// Fragment shader source code
+		this.programInfo = shader.shaderMethods.InitShader(ctx, this.gridVertCode, this.gridFragCode);
+		draw.drawMethods.drawGrid(this.mesh);
+
+		debugger;
+
+		//loader.objLoader.initMeshBuffers(ctx, this.example);
+		loader.objLoader.initMeshBuffers(ctx, this.mesh);
+		//shader progamInfo for test model
+	}
+
+	start(): void {
+
+	}
+
+	end: () => void;
 
 
-    render(context: WebGLRenderingContext, timestamp: any): void {
-        timestamp *= 0.001
-        const deltaTime = timestamp - this.lastTimestamp;
-        this.lastTimestamp = timestamp;
-        draw.drawMethods.drawObject(context, this.programInfo, this.example, deltaTime);
-        
-    }
+	render(context: WebGLRenderingContext, timestamp: any): void {
+		timestamp *= 0.001
+		const deltaTime = timestamp - this.lastTimestamp;
+		this.lastTimestamp = timestamp;
+		draw.drawMethods.drawObject(context, this.programInfo, this.mesh, deltaTime);
+
+	}
 
 }
