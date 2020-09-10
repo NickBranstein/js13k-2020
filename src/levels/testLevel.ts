@@ -12,14 +12,14 @@ export class TestLevel implements ILevel {
 	lastTimestamp: any;
 
 	/*=================== Shaders ====================*/
-	gridVertCode = 'attribute vec3 coordinates;' +
+	gridVertCode = 'attribute vec3 Vert;' +
 		'void main(void) {' +
-		' gl_Position = vec4(coordinates, 1.0);' +
+		'	gl_Position = vec4(Vert, 1.0);' +
 		'}';
 
 	gridFragCode =
 		'void main(void) {' +
-		'gl_FragColor = vec4(0.0, 0.0, 0.0, 0.1);' +
+		'	gl_FragColor = vec4(1.0, 0.0, 0.0, 0.1);' +
 		'}';
 
 	constructor(ctx: WebGLRenderingContext) {
@@ -32,8 +32,6 @@ export class TestLevel implements ILevel {
 		this.programInfo = shader.shaderMethods.InitShader(ctx, this.gridVertCode, this.gridFragCode);
 		draw.drawMethods.drawGrid(this.mesh);
 
-		debugger;
-
 		//loader.objLoader.initMeshBuffers(ctx, this.example);
 		loader.objLoader.initMeshBuffers(ctx, this.mesh);
 		//shader progamInfo for test model
@@ -45,13 +43,11 @@ export class TestLevel implements ILevel {
 
 	end: () => void;
 
-
 	render(context: WebGLRenderingContext, timestamp: any): void {
 		timestamp *= 0.001
 		const deltaTime = timestamp - this.lastTimestamp;
 		this.lastTimestamp = timestamp;
-		draw.drawMethods.drawObject(context, this.programInfo, this.mesh, deltaTime);
-
+		draw.drawMethods.drawObject(context, this.programInfo, this.mesh, deltaTime, context.LINES);
 	}
 
 }

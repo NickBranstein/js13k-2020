@@ -50,7 +50,7 @@
         mesh.vertices = vertices;
 	}
 
-    drawMethods.drawObject = function (gl, programInfo, model, deltaTime) {
+    drawMethods.drawObject = function (gl, programInfo, model, deltaTime, drawMethod) {
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clearDepth(1.0);
         gl.enable(gl.DEPTH_TEST);
@@ -85,6 +85,7 @@
         //    [0, 1, 0]);       // axis to rotate around (X)
 
         //verts
+        debugger;
         {
             const numComponents = model.vertexBuffer.itemSize;
             const type = gl.FLOAT;
@@ -104,7 +105,7 @@
         }
 
         //normals
-        {
+        if (model.normalBuffer.numItems != 0) {
             const numComponents = model.normalBuffer.itemSize;
             const type = gl.FLOAT;
             const normalize = false;
@@ -140,7 +141,7 @@
             const vertexCount = model.indexBuffer.numItems;
             const type = gl.UNSIGNED_SHORT;
             const offset = 0;
-            gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
+            gl.drawElements(drawMethod, vertexCount, type, offset);
         }
 
         rotation += deltaTime;

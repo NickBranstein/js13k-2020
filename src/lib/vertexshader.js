@@ -22,7 +22,6 @@ const vsSource = `
     varying vec3 vColor;
     void main(void) {
       gl_Position = uProjectionMatrix * uModelViewMatrix * Vert;
-      vColor =  Norm.xyz;
     }
   `;
 
