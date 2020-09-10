@@ -27,7 +27,7 @@
 		var firstPoint = gridIntervalWidth - 1;
 
 		//clampped at -1 .. 1
-		for (var x = 1; x <= numberOfLines; x++) {
+		for (var x = 1; x < numberOfLines; x++) {
 			vertices.push((gridIntervalWidth * x) - 1);
 			vertices.push(firstPoint);
 			vertices.push(0);
@@ -38,7 +38,7 @@
 		}
 
 
-		for (var x = 1; x <= numberOfLines; x++) {
+		for (var x = 1; x < numberOfLines; x++) {
 			vertices.push(firstPoint);
 			vertices.push((gridIntervalWidth * x) - 1);
 			vertices.push(0);
@@ -51,25 +51,26 @@
 		mesh.vertices = vertices;
 	}
 
-	drawMethods.drawObject = function (gl, programInfo, model, deltaTime, drawMethod) {
+	drawMethods.drawObject = function (gl, programInfo, model, deltaTime, drawMethod, globalProjectionMatrix) {
 		gl.clearColor(0.0, 0.0, 0.0, 1.0);
 		gl.clearDepth(1.0);
 		gl.enable(gl.DEPTH_TEST);
 		gl.depthFunc(gl.LEQUAL);
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-		const fieldOfView = 45 * Math.PI / 180;   // in radians
-		const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-		const zNear = 0.1;
-		const zFar = 10000.0;
-		const projectionMatrix = mat4.create();
+		//const fieldOfView = 45 * Math.PI / 180;   // in radians
+		//const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+		//const zNear = 0.1;
+		//const zFar = 10000.0;
+		////const projectionMatrix = mat4.create();
 
-		mat4.perspective(projectionMatrix,
-			fieldOfView,
-			aspect,
-			zNear,
-			zFar
-		);
+		//mat4.perspective(globalProjectionMatrix,
+		//	fieldOfView,
+		//	aspect,
+		//	zNear,
+		//	zFar
+		//);
+		debugger;
 
 		const modelViewMatrix = mat4.create();
 
@@ -131,17 +132,24 @@
 		gl.uniformMatrix4fv(
 			programInfo.uniformLocations.projectionMatrix,
 			false,
-			projectionMatrix);
+			globalProjectionMatrix);
 		gl.uniformMatrix4fv(
 			programInfo.uniformLocations.modelViewMatrix,
 			false,
 			modelViewMatrix);
 
 		{
-			const vertexCount = model.indexBuffer.numItems;
+			let vertexCount = 0;
 			const type = gl.UNSIGNED_SHORT;
 			const offset = 0;
-			gl.drawElements(drawMethod, vertexCount, type, offset);
+			if (drawMethod == gl.LINES) {
+				vertexCount = model.vertexBuffer.numItems;
+				gl.drawArrays(gl.LINES, 0, vertexCount);
+			}
+			else {
+				vertexCount = model.indexBuffer.numItems;
+				gl.drawElements(drawMethod, vertexCount, type, offset);
+			}
 		}
 
 		rotation += deltaTime;
