@@ -49,6 +49,7 @@
 			unpacked.hashindices = {};
 			unpacked.indices = [[]];
 			unpacked.index = 0;
+			debugger;
 
 			const VERTEX_RE = /^v\s/;
 			const NORMAL_RE = /^vn\s/;
