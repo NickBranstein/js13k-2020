@@ -129,4 +129,17 @@ export class gridManagement {
             return (topRowIsClear == true && rowIsClear == true);
         }
     }
+
+    public placePipeInGrid(xCoOrd: number, yCoOrd: number, pipeType: number) {
+        var validTarget = this.checkIfTargetIsValidForPipePlacement(yCoOrd, xCoOrd);
+        if (validTarget) {
+            this.grid[xCoOrd][yCoOrd] = pipeType;
+            return true;
+        }
+        return false;
+    }
+
+    public exportGrid() {
+        return this.grid;
+    }
 }
